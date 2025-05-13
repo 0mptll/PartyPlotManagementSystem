@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Party Plot Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+   
+    <style>
+        :root {
+            --primary: #1a2e35;
+            --secondary: #3a506b;
+            --accent: #c8a97e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gold: #d4af37;
+            --green: #397B53;
+        }
+       
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95)), url('/api/placeholder/1920/1080');
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--dark);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        /* Typography Enhancements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+       
+        /* Custom Navbar Styling */
+        .navbar {
+            background-color: rgba(38, 50, 56, 0.98) !important;
+            padding: 18px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+       
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white !important;
+            letter-spacing: 0.5px;
+            padding-left: 2rem;
+            position: relative;
+        }
+       
+        .navbar-brand::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background-color: var(--accent);
+        }
+       
+        .nav-link {
+            color: white !important;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 5px !important;
+            margin: 0 15px;
+            position: relative;
+        }
+       
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+       
+        .nav-link:hover {
+            color: var(--accent) !important;
+        }
+       
+        .nav-link:hover::after {
+            width: 100%;
+        }
+       
+        /* Results header styling */
+        .results-header {
+            text-align: center;
+            margin: 50px 0 30px;
+            position: relative;
+        }
+       
+        .results-title {
+            color: var(--primary);
+            font-size: 2.2rem;
+            display: inline-block;
+            position: relative;
+        }
+       
+        .results-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+       
+        /* Card Styling */
+        .venue-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            overflow: hidden;
+            height: 100%;
+        }
+       
+        .venue-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+       
+        .card-img-top {
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+       
+        .venue-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+       
+        .card-body {
+            padding: 25px;
+            position: relative;
+        }
+       
+        .card-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+        }
+       
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+       
+        .card-info {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+       
+        .info-icon {
+            color: var(--accent);
+            width: 20px;
+            margin-right: 10px;
+            text-align: center;
+        }
+       
+        .card-text {
+            color: var(--secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+       
+        .price-tag {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 15px 0;
+        }
+       
+        /* Button Styling */
+        .btn-details {
+            width: 100%;
+            background-color: var(--accent);
+            border: none;
+            color: white;
+            padding: 12px 0;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(200, 169, 126, 0.3);
+        }
+       
+        .btn-details:hover {
+            background-color: #b69566;
+            color: white;
+            box-shadow: 0 8px 20px rgba(200, 169, 126, 0.4);
+        }
+       
+        /* Venue Details Submenu - FIXED POSITIONING */
+        .venue-details-wrapper {
+            position: relative;
+        }
+       
+        .venue-details-submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 100;
+            margin-top: 10px;
+        }
+       
+        .venue-details-submenu::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+       
+        .venue-details-submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+       
+        .venue-details-submenu li {
+            margin-bottom: 10px;
+        }
+       
+        .venue-details-submenu li:last-child {
+            margin-bottom: 0;
+        }
+       
+        .venue-details-submenu li a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+       
+        .venue-details-submenu li a:hover {
+            background-color: rgba(200, 169, 126, 0.1);
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+       
+        .venue-details-submenu li a i {
+            margin-right: 8px;
+            color: var(--accent);
+        }
+       
+        /* Footer Styling */
+        footer {
+            background-color: var(--green);
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+       
+        footer p {
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            font-family: 'Karla', sans-serif;
+        }
+       
+        /* Animation Classes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+       
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+       
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+       
+        .delay-2 {
+            animation-delay: 0.2s;
+        }
+       
+        .delay-3 {
+            animation-delay: 0.3s;
+        }
+       
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 50px 0;
+        }
+       
+        .no-results i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+       
+        .no-results h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+       
+        .btn-back {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+       
+        .btn-back:hover {
+            background-color: #b69566;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .card-title {
+                font-size: 1.2rem;
+            }
+           
+            .price-tag {
+                font-size: 1.1rem;
+            }
+        }
+       
+        @media (max-width: 768px) {
+            .results-header {
+                margin: 30px 0 20px;
+            }
+           
+            .results-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'index' %}">Party Plot Management</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'reviews' %}">Reviews</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="results-header">
+            <h2 class="results-title">Available Venues</h2>
+            <p class="text-muted">Showing results for <span class="fw-bold">{{ location }}</span></p>
+        </div>
+
+        <div class="row">
+            {% if venues %}
+                {% for venue in venues %}
+                <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                    <div class="card venue-card">
+                        <div style="overflow: hidden;">
+                            <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.venue_name }}">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ venue.venue_name }}</h5>
+                           
+                            <div class="card-info">
+                                <span class="info-icon"><i class="fas fa-map-marker-alt"></i></span>
+                                <span class="card-text">{{ venue.location }}</span>
+                            </div>
+                           
+                            <div class="card-info">
+                                <span class="info-icon"><i class="fas fa-users"></i></span>
+                                <span class="card-text">Capacity: {{ venue.capacity }}</span>
+                            </div>
+                           
+                            <div class="card-info">
+                                <span class="info-icon"><i class="fas fa-concierge-bell"></i></span>
+                                <span class="card-text">{{ venue.amenities }}</span>
+                            </div>
+                           
+                            <div class="price-tag">
+                                <i class="fas fa-rupee-sign"></i> {{ venue.pricing }}
+                            </div>
+                           
+                            <div class="venue-details-wrapper">
+                                <button class="btn btn-details" data-venue-id="{{ forloop.counter }}">
+                                    <i class="fas fa-info-circle me-2"></i>Venue Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 no-results" data-aos="fade-up">
+                    <i class="fas fa-search"></i>
+                    <h3>No venues found</h3>
+                    <p class="mb-4">We couldn't find any venues matching your criteria.</p>
+                    <a href="{% url 'search_venues' %}" class="btn btn-back">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Search
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Modal for Venue Details -->
+    <div class="modal fade" id="venueDetailsModal" tabindex="-1" aria-labelledby="venueDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: var(--accent); color: white;">
+                    <h5 class="modal-title" id="venueDetailsModalLabel">Venue Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="#" id="bookVenueLink" class="text-decoration-none">
+                                <i class="fas fa-calendar-check me-2" style="color: var(--accent);"></i> Book Venue
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{% url 'images' %}" class="text-decoration-none">
+                                <i class="fas fa-images me-2" style="color: var(--accent);"></i> View Gallery
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Party Plot Management System. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animation
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+           
+            // Store venue data for modal
+            const venueData = [
+                {% for venue in venues %}
+                {
+                    name: "{{ venue.venue_name }}",
+                    price: "{{ venue.pricing }}"
+                },
+                {% endfor %}
+            ];
+           
+            // Venue details modal functionality
+            const detailsButtons = document.querySelectorAll('.btn-details');
+            const venueDetailsModal = new bootstrap.Modal(document.getElementById('venueDetailsModal'));
+            const bookVenueLink = document.getElementById('bookVenueLink');
+           
+            detailsButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const venueId = this.getAttribute('data-venue-id') - 1; // Adjust for zero-based index
+                   
+                    // Update modal title with venue name
+                    if (venueData[venueId]) {
+                        document.getElementById('venueDetailsModalLabel').textContent =
+                            venueData[venueId].name + " - Details";
+                       
+                        // Update book venue link
+                        bookVenueLink.href = "{% url 'book_venue' %}?venue_name=" +
+                            encodeURIComponent(venueData[venueId].name) +
+                            "&booking_price=" + encodeURIComponent(venueData[venueId].price);
+                    }
+                   
+                    // Show the modal
+                    venueDetailsModal.show();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

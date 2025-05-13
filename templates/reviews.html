@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <title>Reviews - Party Plot Management System</title>
+    <style>
+        :root {
+            --primary: #1a2e35;
+            --secondary: #3a506b;
+            --accent: #c8a97e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gold: #d4af37;
+            --green: #397B53;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f9f9;
+            background-image: linear-gradient(to bottom right, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95)), url('/api/placeholder/1920/1080');
+            background-attachment: fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        /* Typography Enhancements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -10px;
+            left: 0;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            line-height: 1.8;
+        }
+
+        /* Enhanced Navbar */
+        .navbar {
+            background-color: rgba(38, 50, 56, 0.98);
+            color: white;
+            padding: 18px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            letter-spacing: 0.5px;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .navbar-brand::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background-color: var(--accent);
+        }
+
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+            padding-right: 2rem;
+        }
+
+        .nav-item {
+            margin-right: 25px;
+            position: relative;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Enhanced Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 80px auto 40px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--green));
+            border-radius: 12px 12px 0 0;
+        }
+
+        .review-section {
+            flex: 1 1 45%;
+            padding: 25px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .review-section:first-child {
+            order: 1;
+        }
+
+        .review-section:last-child {
+            order: 2;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -10px;
+            left: 0;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            line-height: 1.8;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        textarea {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Karla', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        button {
+            background-color: var(--green);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .review {
+            padding: 15px 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .review:last-child {
+            border-bottom: none;
+        }
+
+        .review h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .review p {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .review p:last-child {
+            font-style: italic;
+            color: #999;
+        }
+
+        /* Enhanced Footer */
+        footer {
+            background-color: var(--green);
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            font-family: 'Karla', sans-serif;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 70px;
+                padding: 20px;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .review-section {
+                flex: 1 1 100%;
+                order: unset !important;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .navbar-nav {
+                padding-right: 1rem;
+            }
+
+            .nav-item {
+                margin-right: 15px;
+            }
+        }
+
+        /* Animation for page elements */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2, .review-section {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .review-section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a class="navbar-brand" href="{% url 'index' %}">Party Plot Management</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reviews' %}">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="review-section">
+            <h2>Submit Your Review</h2>
+            <form id="review-form" action="{% url 'reviews' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Your Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-text">Write your review:</label>
+                    <textarea id="review-text" name="review-text" rows="5" required></textarea>
+                </div>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+        <div class="review-section">
+            <h2>Customer Reviews</h2>
+            <div class="review-list" id="review-list">
+                {% for review in reviews %}
+                <div class="review">
+                    <h3>{{ review.reviewer_name }}</h3>
+                    <p>{{ review.review_text }}</p>
+                    <p>{{ review.created_at|date:"F j, Y" }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Party Plot Management System. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initialize AOS animation
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            // Submit review form using AJAX
+            $('#review-form').submit(function (e) {
+                e.preventDefault(); // Prevent form submission
+                var form = $(this);
+                $.ajax({
+                    type: 'POST',
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        // Prepend new review to review list
+                        $('.review-list').prepend(
+                            '<div class="review" style="opacity: 0; transform: translateY(-10px);"><h3>' + response.name + '</h3><p>' + response.review_text + '</p><p>' + response.created_at + '</p></div>'
+                        );
+                        // Animate the new review
+                        $('.review-list .review:first-child').animate({ opacity: 1, transform: 'translateY(0)' }, 500);
+
+                        // Clear form fields
+                        form.trigger('reset');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                        // Optionally display an error message to the user
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

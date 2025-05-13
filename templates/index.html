@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <title>Party Plot Management System</title>
+    <style>
+        :root {
+            --primary: #1a2e35;
+            --secondary: #3a506b;
+            --accent: #c8a97e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gold: #d4af37;
+            --green: #397B53;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f9f9;
+            background-image: linear-gradient(to bottom right, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95)), url('/api/placeholder/1920/1080');
+            background-attachment: fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+        }
+
+        /* Typography Enhancements */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        p {
+            line-height: 1.8;
+        }
+        
+        .gold-text {
+            color: var(--gold);
+        }
+        
+        /* Enhanced Navbar */
+        .navbar {
+            background-color: rgba(38, 50, 56, 0.98);
+            color: white;
+            padding: 18px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1000;
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            letter-spacing: 0.5px;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .navbar-brand::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background-color: var(--accent);
+        }
+        
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+            padding-right: 2rem;
+        }
+        
+        .nav-item {
+            margin-right: 25px;
+            position: relative;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Enhanced Main Content */
+        main {
+            padding: 60px 30px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--green));
+        }
+        
+        /* Enhanced Card Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        
+        .col-md-4 {
+            flex: 0 0 calc(33.33% - 30px);
+            max-width: calc(33.33% - 30px);
+            padding: 0 15px;
+        }
+        
+        .cardBody {
+            width: 100%;
+            display: flex;
+            align-items: stretch;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            display: flex;
+            flex-direction: column;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            background-color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 40px rgba(200, 169, 126, 0.2);
+        }
+        
+        .card-img-top {
+            height: 220px;
+            object-fit: cover;
+            width: 100%;
+            transition: transform 0.8s ease;
+        }
+        
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+        
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-title {
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .card-text {
+        color: #6c757d;
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center; /* Vertically align icon and text */
+        text-align: left; /* Ensure text content is left-aligned */
+     }
+
+        .card-text::before {
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        margin-right: 10px;
+        color: var(--accent);
+        font-size: 1rem;
+        flex-shrink: 0; /* Prevent icon from shrinking */
+        width: 1.2em; /* Add some fixed width for consistent spacing */
+        text-align: center; /* Center the icon within its width */
+        display: inline-block; /* Ensure width is respected */
+        }
+        
+        .card-text:nth-of-type(1)::before {
+            content: '\f3c5'; /* map marker icon */
+        }
+        
+        .card-text:nth-of-type(2)::before {
+            content: '\f0c0'; /* users icon */
+        }
+        
+        .card-text:nth-of-type(3)::before {
+            content: '\f155'; /* dollar icon */
+        }
+        
+        /* Enhanced Footer */
+        footer {
+            background-color: var(--green);
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        footer p {
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .col-md-4 {
+                flex: 0 0 calc(50% - 30px);
+                max-width: calc(50% - 30px);
+            }
+            
+            .navbar {
+                padding: 15px 0;
+            }
+            
+            .navbar-brand {
+                font-size: 1.6rem;
+                padding-left: 1.5rem;
+            }
+            
+            .nav-item {
+                margin-right: 15px;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .col-md-4 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            
+            main {
+                padding: 40px 20px;
+                margin: 30px 15px;
+            }
+            
+            .navbar-nav {
+                padding-right: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .navbar-brand::before {
+                height: 20px;
+            }
+        }
+        
+        /* Additional Premium Touches */
+        .mt-5 {
+            margin-top: 3rem;
+        }
+        
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Animation for page elements */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1, main p, .container {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        main p {
+            animation-delay: 0.2s;
+        }
+        
+        .container {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a class="navbar-brand" href="{% url 'index' %}">Party Plot Management</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reviews' %}">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Welcome to the <span style="font-family: 'Cormorant Infant', serif;">Party Plot Management System</span></h1>
+        <p style="font-family: 'Karla', sans-serif;">Find the perfect venue for your next event and book it seamlessly.</p>
+
+        <div class="container mt-5">
+            <div class="row">
+                {% for venue in venues_with_images %}
+                <div class="col-md-4 mb-4 cardBody">
+                    <div class="card">
+                        <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.venue_name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ venue.venue_name }}</h5>
+                            <p class="card-text">Location: {{ venue.location }}</p>
+                            <p class="card-text">Capacity: {{ venue.capacity }}</p>
+                            <p class="card-text">Pricing: {{ venue.pricing }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p style="font-family: 'Karla', sans-serif;">&copy; 2024 Party Plot Management System. All rights reserved.</p>
+    </footer>
+
+    <!-- Animation Library Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animation
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        });
+    </script>
+</body>
+</html>
